@@ -17,22 +17,32 @@ stack_bottom:
 stack_top:
 
 .section .text
+_start:
 .global _start
 .type _start, @function
-_start:
 	mov $stack_top, %esp
 	call kernel_main
 	jmp .
 
-in:
-  mov %edi, %edx
-  xor %eax, %eax
+.global inb
+.type inb, @function
+inb:
+  mov 4(%esp), %edx
   in %dx, %al
   ret
 
-out:
-  mov %edi, %edx
-  mov %esi, %eax
+.global inw
+.type inw, @function
+inw:
+  mov 4(%esp), %edx
+  in %dx, %ax
+  ret
+
+.global outb
+.type outb, @function
+outb:
+  mov 4(%esp), %edx
+  mov 8(%esp), %al
   out %al, %dx
   ret
 
